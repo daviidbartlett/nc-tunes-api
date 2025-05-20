@@ -44,4 +44,35 @@ describe("app", () => {
       expect(body.msg).toBe("Artist not found.");
     });
   });
+  describe("GET - /api/songs", () => {
+    test("responds with status of 200", async () => {
+      await request(app).get("/api/songs").expect(200);
+    });
+    test("responds with a songs array", async () => {
+      const { body } = await request(app).get("/api/songs");
+
+      expect(Array.isArray(body.songs)).toBe(true);
+    });
+    test("Each song object should have props: title, release_year, artist_name", async () => {
+      const { body } = await request(app).get("/api/songs");
+
+      expect(body.songs.length > 0).toBe(true);
+
+      body.songs.forEach((song) => {
+        expect(song.hasOwnProperty("title")).toBe(true);
+        expect(song.hasOwnProperty("release_year")).toBe(true);
+        expect(song.hasOwnProperty("artist_name")).toBe(true);
+      });
+    });
+    test("songs are ordered by release_year by default", async () => {
+      const { body } = await request(app).get("/api/songs");
+
+      expect(body.songs).toBeSortedBy("release_year");
+    });
+    test("user can order by song_title", async () => {
+      const { body } = await request(app).get("/api/songs?sortby=song_title");
+
+      expect(body.songs).toBeSortedBy("title");
+    });
+  });
 });

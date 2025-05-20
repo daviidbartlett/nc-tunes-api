@@ -6,11 +6,15 @@ const {
   handleCustomErrors,
 } = require("./controllers/errors");
 
+const { getSongs } = require("./controllers/songs");
+
 const app = express();
 
 app.get("/api/artists", getArtists);
 
 app.get("/api/artists/:id", getArtistById);
+
+app.get("/api/songs", getSongs);
 
 app.all("/*invalidPath", handlePathNotFound);
 
