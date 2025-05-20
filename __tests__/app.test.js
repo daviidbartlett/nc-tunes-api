@@ -38,7 +38,7 @@ describe("app", () => {
 
       expect(body.msg).toBe("Bad Request.");
     });
-    test.only("valid ID but non-exisitent responds with 404 and msg", async () => {
+    test("valid ID but non-exisitent responds with 404 and msg", async () => {
       const { body } = await request(app).get("/api/artists/9999").expect(404);
 
       expect(body.msg).toBe("Artist not found.");

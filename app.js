@@ -14,8 +14,8 @@ app.get("/api/artists/:id", getArtistById);
 
 app.all("/*invalidPath", handlePathNotFound);
 
-// app.use(handleCustomErrors);
+app.use(handleCustomErrors);
 
-// app.use(handlesBadRequests);
+app.use(handlesBadRequests);
 
 module.exports = app;
