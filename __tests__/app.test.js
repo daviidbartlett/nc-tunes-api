@@ -1,10 +1,15 @@
+process.env.NODE_ENV = "test";
+
 const request = require("supertest");
 const app = require("../app");
 const db = require("../db/connection");
-
+const seed = require("../db/seed");
+const { genres, artists, songs, playlists } = require("../db/data/test");
 afterAll(() => {
   db.end();
 });
+
+beforeEach(() => seed(genres, artists, songs, playlists));
 
 describe("app", () => {
   test("non-existent endpoint responds with 404 and msg", async () => {

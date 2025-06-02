@@ -2,11 +2,12 @@
   "name": "servers",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "listen.js",
   "scripts": {
     "test-utils": "jest utils",
     "test": "jest app",
     "seed": "node ./db/seed-run",
+    "seed-prod": "NODE_ENV=production npm run seed",
     "setup-db": "psql -f ./db/setup.sql",
     "dev": "nodemon listen.js"
   },
