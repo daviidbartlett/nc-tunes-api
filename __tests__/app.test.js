@@ -8,7 +8,7 @@ afterAll(() => {
 
 describe("app", () => {
   test("non-existent endpoint responds with 404 and msg", async () => {
-    const { body } = await request(app).get("/non-existent-path").expect(404);
+    const { body } = await request(app).get("/banana").expect(404);
 
     expect(body.msg).toBe("Path not found.");
   });
@@ -73,6 +73,13 @@ describe("app", () => {
       const { body } = await request(app).get("/api/songs?sortby=song_title");
 
       expect(body.songs).toBeSortedBy("title");
+    });
+    test("responds with 400 and error message for invalid sortby", async () => {
+      const { body } = await request(app)
+        .get("/api/songs?sortby=invalid")
+        .expect(400);
+
+      expect(body.msg).toBe("Bad Request.");
     });
   });
 });
