@@ -3,6 +3,8 @@ const createArtistRef = require("./utils");
 const format = require("pg-format");
 
 async function seed(genres, artists, songs, playlists) {
+  await db.query(`DROP TABLE IF EXISTS playlists_songs;`);
+  await db.query(`DROP TABLE IF EXISTS playlists;`);
   await db.query(`DROP TABLE IF EXISTS songs;`);
   await db.query(`DROP TABLE IF EXISTS genres;`);
   await db.query(`DROP TABLE IF EXISTS artists;`);
