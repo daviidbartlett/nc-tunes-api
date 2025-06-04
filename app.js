@@ -1,13 +1,14 @@
 const express = require("express");
 const { getArtists, getArtistById } = require("./controllers/artists");
+const { getSongs, postSong } = require("./controllers/songs");
+
 const {
   handlePathNotFound,
   handlesBadRequests,
   handleCustomErrors,
   handleServerErrors,
+  handleNonExistentArtists,
 } = require("./controllers/errors");
-
-const { getSongs } = require("./controllers/songs");
 
 const app = express();
 
@@ -19,6 +20,8 @@ app.get("/api/artists/:id", getArtistById);
 
 app.get("/api/songs", getSongs);
 
+app.post("/api/songs", postSong);
+
 app.all("/*invalidPath", handlePathNotFound);
 
 // error handling middleware functions
@@ -26,6 +29,8 @@ app.all("/*invalidPath", handlePathNotFound);
 app.use(handleCustomErrors);
 
 app.use(handlesBadRequests);
+
+app.use(handleNonExistentArtists);
 
 app.use(handleServerErrors);
 

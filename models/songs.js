@@ -15,3 +15,14 @@ exports.fetchSongs = async (sortby = "release_year") => {
 
   return rows;
 };
+
+exports.addSong = async ({ song_title, release_year, artist_id, genre }) => {
+  const {
+    rows: [song],
+  } = await db.query(
+    `INSERT INTO songs (song_title, release_year, artist_id, genre) VALUES ($1,$2,$3,$4) RETURNING *;`,
+    [song_title, release_year, artist_id, genre]
+  );
+
+  return song;
+};

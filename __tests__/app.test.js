@@ -1,5 +1,3 @@
-process.env.NODE_ENV = "test";
-
 const request = require("supertest");
 const app = require("../app");
 const db = require("../db/connection");
@@ -85,6 +83,34 @@ describe("app", () => {
         .expect(400);
 
       expect(body.msg).toBe("Bad Request.");
+    });
+  });
+  describe("POST - /api/songs", () => {
+    const newSong = {
+      song_title: "test song",
+      release_year: 2025,
+      artist_id: 1,
+      genre: "pop",
+    };
+
+    test("responds with status 201", async () => {
+      await request(app).post("/api/songs").send(newSong).expect(201);
+    });
+    test("responds with the freshly created song", async () => {
+      const { body } = await request(app)
+        .post("/api/songs")
+        .send(newSong)
+        .expect(201);
+
+      expect(body.song).toEqual({ song_id: 9, ...newSong });
+    });
+    test("responds with 404 and msg for valid but non-existent artist_id", async () => {
+      const { body } = await request(app)
+        .post("/api/songs")
+        .send({ ...newSong, artist_id: 9999 })
+        .expect(404);
+
+      expect(body.msg).toBe("Artist not found.");
     });
   });
 });

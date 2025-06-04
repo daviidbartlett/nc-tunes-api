@@ -1,3 +1,5 @@
 DROP DATABASE IF EXISTS nc_tunes;
+DROP DATABASE IF EXISTS nc_tunes_test;
 
 CREATE DATABASE nc_tunes;
+CREATE DATABASE nc_tunes_test;
